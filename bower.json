@@ -1,0 +1,22 @@
+{
+  "name": "ayende",
+  "version": "0.0.0",
+  "homepage": "https://github.com/tswayne/ayende",
+  "authors": [
+    "tswayne <swaynetyler@gmail.com>"
+  ],
+  "description": "A game",
+  "main": "ayende.js",
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "bootstrap": "~3.3.5",
+    "bootstrap-sass": "~3.3.5"
+  }
+}
