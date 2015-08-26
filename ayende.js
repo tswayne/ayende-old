@@ -5,7 +5,7 @@ var server = new Hapi.Server();
 
 server.connection({
   host: 'localhost',
-  port: 5000
+  port: process.env.PORT || 5000
 });
 
 router.addRoutes(server);
