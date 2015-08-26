@@ -12,6 +12,7 @@
   },
   "devDependencies": {},
   "scripts": {
+    "start": "node ayende.js",
     "postinstall": "node_modules/.bin/bower install"
   },
   "repository": {
