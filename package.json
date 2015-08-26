@@ -8,6 +8,7 @@
     "handlebars": "^3.0.3",
     "hapi": "^9.0.3",
     "hapi-io": "^0.0.11",
+    "newrelic": "^1.22.0",
     "vision": "^3.0.0"
   },
   "devDependencies": {},

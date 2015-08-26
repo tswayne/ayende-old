@@ -2,7 +2,9 @@ var Hapi = require('hapi');
 var router = require('./src/routes');
 var plugins = require('./src/plugins');
 var server = new Hapi.Server();
-
+if (process.env.NODE_ENV === 'production') {
+  require('newrelic');
+}
 server.connection({
   host: '0.0.0.0',
   port: process.env.PORT || 5000
