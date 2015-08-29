@@ -2,7 +2,8 @@ var Hapi = require('hapi');
 var router = require('./src/routes');
 var plugins = require('./src/plugins');
 var server = new Hapi.Server();
-if (process.env.NODE_ENV === 'production') {
+
+if (process.env.NEW_RELIC_KEY) {
   require('newrelic');
 }
 server.connection({
@@ -11,6 +12,8 @@ server.connection({
 });
 
 router.addRoutes(server);
+require('./src/lib/database/initMysqlDatabase')();
+
 
 var registerViews = function(server) {
   server.views({
