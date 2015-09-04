@@ -21,6 +21,9 @@ module.exports = function() {
   var User = sequelize.define('user', {
     userName: {
       type: Sequelize.STRING
+    },
+    passWord: {
+      type: Sequelize.STRING
     }
   }, {
     freezeTableName: true

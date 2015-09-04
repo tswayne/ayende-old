@@ -1,19 +1,18 @@
+if (process.env.NEW_RELIC_KEY) {
+  require('newrelic');
+}
 var Hapi = require('hapi');
 var router = require('./src/routes');
 var plugins = require('./src/plugins');
 var server = new Hapi.Server();
 
-if (process.env.NEW_RELIC_KEY) {
-  require('newrelic');
-}
+
 server.connection({
   host: '0.0.0.0',
   port: process.env.PORT || 5000
 });
 
-router.addRoutes(server);
 require('./src/lib/database/initMysqlDatabase')();
-
 
 var registerViews = function(server) {
   server.views({
@@ -28,6 +27,7 @@ var registerViews = function(server) {
 
 plugins.registerPlugins(server, function(err){
   registerViews(server);
+  router.addRoutes(server);
   server.start(function() {
     console.log('Server running at:', server.info.uri);
   });
