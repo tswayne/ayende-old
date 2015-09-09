@@ -9,12 +9,14 @@ var accountForm = forms.create({
     username: fields.string({
         required: true,
         widget: widgets.text({ classes: ['form-control'] }),
-        errorAfterField: true
+        errorAfterField: true,
+        validators: [validators.minlength('2'), validators.maxlength('20')]
     }),
-    password: fields.string({
+    password: fields.password({
         required: true,
         errorAfterField: true,
-        widget: widgets.text({ classes: ['form-control'] })
+        widget: widgets.password({ classes: ['form-control'] }),
+        validators: [validators.minlength('2'), validators.maxlength('20')]
     })
 });
 

@@ -4,30 +4,33 @@ var dbName = process.env.DBNAME || 'local';
 var dbUser = process.env.DBUSER || 'root';
 var dbPassword = process.env.DBPW || '';
 
-module.exports = function() {
-  var sequelize = new Sequelize(dbName, dbUser, dbPassword, {
-    host: host,
-    dialect: 'mysql',
-    pool: {
-      max: 5,
-      min: 0,
-      idle: 10000
-    },
-    define: {
-      timestamps: false
-    }
-  });
+var sequelize = new Sequelize(dbName, dbUser, dbPassword, {
+  host: host,
+  dialect: 'mysql',
+  pool: {
+    max: 5,
+    min: 0,
+    idle: 10000
+  },
+  define: {
+    timestamps: false
+  }
+});
 
-  var User = sequelize.define('user', {
-    userName: {
-      type: Sequelize.STRING
-    },
-    passWord: {
-      type: Sequelize.STRING
-    }
-  }, {
-    freezeTableName: true
-  });
+module.exports.User = sequelize.define('user', {
+  username: {
+    type: Sequelize.STRING
+  },
+  password: {
+    type: Sequelize.STRING
+  }
+}, {
+  freezeTableName: true
+});
+
+module.exports.init = function() {
+
+  var User = exports.User;
 
   var Location = sequelize.define('location', {
     xCoordinate: {
@@ -80,6 +83,6 @@ module.exports = function() {
   Troops.belongsToMany(Location, { through: LocationsTroops});
   Location.hasMany(Attacks);
   User.hasMany(Location);
-  sequelize.sync();
-  //sequelize.sync({force: true});
+  //sequelize.sync();              --uncomment and comment force: true to keep local data
+  sequelize.sync({force: true});
 };

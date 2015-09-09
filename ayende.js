@@ -12,7 +12,7 @@ server.connection({
   port: process.env.PORT || 5000
 });
 
-require('./src/lib/database/initMysqlDatabase')();
+require('./src/lib/database/mysqlDatabase').init();
 
 var registerViews = function(server) {
   server.views({
