@@ -6,13 +6,13 @@ var login = {
     {
         accountForm.handle(request.payload, {
             success: function (form) {
-                db.User.findOne({username: request.payload.username}).then(function(user) {
-                    if (user && request.payload.password == user.password) {
-                        request.auth.session.set(user);
-                        reply.redirect('/headquarters');
-                    } else {
-                        reply.redirect('/');
-                    }
+                service.validate(request.payload, function(isValid) {
+                   if (isValid) {
+                       request.auth.session.set(user);
+                       reply.redirect('/headquarters')
+                   } else {
+                       reply.redirect('/');
+                   }
                 });
             },
             error: function (form) {

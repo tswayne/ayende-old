@@ -15,5 +15,15 @@ var init = function(userData, callback) {
     });
 };
 
-module.exports.initializeAccount = init;
+var validate = function(loginInfo, callback) {
+    db.User.findOne({username: loginInfo.username}).then(function(user) {
+        if (user && request.payload.password == user.password) {
+            callback(true);
+        } else {
+            callback(false);
+        }
+    });
+};
 
+module.exports.initializeAccount = init;
+module.exports.validate = validate;
