@@ -8,16 +8,24 @@ var createCoordinate = function() {
 var init = function(userData, callback) {
     db.User.create(userData).then(function(user) {
         db.Location.create({xCoordinate: createCoordinate(), yCoordinate: createCoordinate()}).then(function(location){
-            user.addLocation(location).then(function(){
-                callback();
-            })
-        })
+            db.Troops.findOne({type: 0}).then(function(troops){
+                db.Resources.findOne({type: 0}).then(function(resources){
+                    location.addResource(resources, {amount: 1000}).then(function(){
+                        location.addTroop(troops, {amount: 100}).then(function(){
+                            user.addLocation(location).then(function(){
+                                callback();
+                            });
+                        });
+                    });
+                });
+            });
+        });
     });
 };
 
 var validate = function(loginInfo, callback) {
     db.User.findOne({username: loginInfo.username}).then(function(user) {
-        if (user && request.payload.password == user.password) {
+        if (user && loginInfo.password == user.password) {
             callback(true);
         } else {
             callback(false);

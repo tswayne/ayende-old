@@ -8,7 +8,7 @@ var login = {
             success: function (form) {
                 service.validate(request.payload, function(isValid) {
                    if (isValid) {
-                       request.auth.session.set(user);
+                       request.auth.session.set(request.payload);
                        reply.redirect('/headquarters')
                    } else {
                        reply.redirect('/');

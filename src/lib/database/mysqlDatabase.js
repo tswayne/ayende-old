@@ -39,6 +39,19 @@ module.exports.Location = sequelize.define('location', {
   freezeTableName: true
 });
 
+module.exports.Troops = sequelize.define('troops', {
+  type: {
+    type: Sequelize.STRING
+  }
+}, {
+  freezeTableName: true
+});
+
+module.exports.Resources = sequelize.define('resources', {
+  type: Sequelize.STRING
+});
+
+
 module.exports.sequelize = sequelize;
 
 module.exports.initializeAccount = function() {
@@ -47,13 +60,7 @@ module.exports.initializeAccount = function() {
 
   var Location = exports.Location;
 
-  var Troops = sequelize.define('troops', {
-    type: {
-      type: Sequelize.STRING
-    }
-  }, {
-    freezeTableName: true
-  });
+  var Troops = exports.Troops;
 
   var LocationsTroops = sequelize.define('locationsTroops', {
     amount: Sequelize.INTEGER
@@ -72,21 +79,23 @@ module.exports.initializeAccount = function() {
     amount: Sequelize.INTEGER
   });
 
-  var Resources = sequelize.define('resources', {
-    type: Sequelize.STRING
-  });
+  var Resources = module.exports.Resources;
 
   var LocationsResources = sequelize.define('locationsResources', {
     ammount: Sequelize.INTEGER
   });
 
   Resources.belongsToMany(Location, {through: LocationsResources});
+  Location.belongsToMany(Resources, {through: LocationsResources});
   Location.belongsToMany(Location, {as: 'Attacker', through: Attacks, foreignKey: 'attackerId'});
   Location.belongsToMany(Location, {as: 'Target', through: Attacks, foreignKey: 'targetId'});
   Troops.belongsToMany(Attacks, {through: AttackingTroops});
   Troops.belongsToMany(Location, { through: LocationsTroops});
+  Location.belongsToMany(Troops, { through: LocationsTroops});
   Location.hasMany(Attacks);
   User.hasMany(Location);
   //sequelize.sync();              --uncomment and comment force: true to keep local data
-  sequelize.sync({force: true});
+  sequelize.sync({force: true}).then(function(){
+    require('./provision').provision();
+  });
 };
