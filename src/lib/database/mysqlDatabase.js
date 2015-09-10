@@ -28,20 +28,24 @@ module.exports.User = sequelize.define('user', {
   freezeTableName: true
 });
 
-module.exports.init = function() {
+module.exports.Location = sequelize.define('location', {
+  xCoordinate: {
+    type: Sequelize.INTEGER
+  },
+  yCoordinate: {
+    type: Sequelize.INTEGER
+  }
+}, {
+  freezeTableName: true
+});
+
+module.exports.sequelize = sequelize;
+
+module.exports.initializeAccount = function() {
 
   var User = exports.User;
 
-  var Location = sequelize.define('location', {
-    xCoordinate: {
-      type: Sequelize.INTEGER
-    },
-    yCoordinate: {
-      type: Sequelize.INTEGER
-    }
-  }, {
-    freezeTableName: true
-  });
+  var Location = exports.Location;
 
   var Troops = sequelize.define('troops', {
     type: {

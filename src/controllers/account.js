@@ -1,5 +1,5 @@
 var accountForm = require('../lib/forms/account-form');
-var db = require('../lib/database/mysqlDatabase');
+var service = require('../lib/service/account');
 
 var login = {
     handler:  function(request, reply)
@@ -45,10 +45,10 @@ var save ={
     {
         accountForm.handle(request.payload, {
             success: function (form) {
-                db.User.create(request.payload).then(function(user){
-                    request.auth.session.set(request.payload);
-                    reply.redirect('/headquarters');
-                })
+                service.initializeAccount(request.payload, function(){
+                  request.auth.session.set(request.payload);
+                  reply.redirect('/headquarters');
+                });
             },
             error: function (form) {
                 reply.view("account/create", {form: form.toHTML()})
