@@ -1,15 +1,23 @@
 var accountForm = require('../lib/forms/account-form');
 var service = require('../lib/service/account');
+var database = require('../lib/database/mysqlDatabase');
 
 var login = {
     handler:  function(request, reply)
     {
         accountForm.handle(request.payload, {
             success: function (form) {
-                service.validate(request.payload, function(isValid) {
+                service.validate(request.payload, function(isValid, locations) {
+                    console.log('locations' ,locations);
                    if (isValid) {
                        request.auth.session.set(request.payload);
-                       reply.redirect('/headquarters')
+                       if (locations.length === 0) {
+                           reply.redirect('/');
+                       } else if (locations.length === 1) {
+                           reply.redirect('/headquarters/location/' + locations[0].id);
+                       } else {
+                           reply.redirect('/headquarters');
+                       }
                    } else {
                        reply.redirect('/');
                    }

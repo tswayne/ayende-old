@@ -24,13 +24,16 @@ var init = function(userData, callback) {
 };
 
 var validate = function(loginInfo, callback) {
-    db.User.findOne({username: loginInfo.username}).then(function(user) {
+    db.User.findOne({username: loginInfo.username})
+      .then(function(user) {
         if (user && loginInfo.password == user.password) {
-            callback(true);
+          user.getLocations().then(function(locations) {
+            callback(true, locations);
+          })
         } else {
-            callback(false);
+          callback(false);
         }
-    });
+      });
 };
 
 module.exports.initializeAccount = init;

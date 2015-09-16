@@ -94,8 +94,8 @@ module.exports.initializeAccount = function() {
   Location.belongsToMany(Troops, { through: LocationsTroops});
   Location.hasMany(Attacks);
   User.hasMany(Location);
-  //sequelize.sync();              --uncomment and comment force: true to keep local data
-  sequelize.sync({force: true}).then(function(){
-    require('./provision').provision();
-  });
+  sequelize.sync();              //--uncomment and comment force: true to keep local data
+  //sequelize.sync({force: true}).then(function(){
+  //  require('./provision').provision();
+  //});
 };
