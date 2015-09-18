@@ -7,6 +7,7 @@ var addRoutes = function(server) {
     server.route([
       {method: 'GET', path: '/', config: homeController.index},
       {method: 'GET', path: '/headquarters', config: headquartersController.index},
+      {method: 'GET', path: '/headquarters/location/{locationId}', config: headquartersController.location},
       {method: 'GET', path: '/bower_components/{path*}', config: assetsController.bower},
       {method: 'GET', path: '/create-account', config: accountController.create},
       {method: 'POST', path: '/create-account', config: accountController.save},

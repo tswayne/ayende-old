@@ -28,7 +28,8 @@ var validate = function(loginInfo, callback) {
       .then(function(user) {
         if (user && loginInfo.password == user.password) {
           user.getLocations().then(function(locations) {
-            callback(true, locations);
+              user.locations = locations;
+            callback(true, user);
           })
         } else {
           callback(false);

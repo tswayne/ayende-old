@@ -1,3 +1,7 @@
 <div class="container">
     <h1>HQ</h1>
+    {{#each locations}}
+    <h2>{{xCoordinate}} - {{yCoordinate}}</h2>
+    <a href="/headquarters/location/{{id}}">Go here</a>
+    {{/each}}
 </div>
