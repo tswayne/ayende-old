@@ -6,10 +6,12 @@ var registerPlugins = function(server, callback) {
     require('vision'),
     {
       register: require('yar'),
-      options: { storeBlank: false,
+      options: {
+        name: 'ayende-session',
+        maxCookieSize: 0,
         cookieOptions: {
           password: 'password',
-          isSecure: true
+          isSecure: false
         }
       }
     }

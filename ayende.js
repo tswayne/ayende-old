@@ -4,8 +4,13 @@ if (process.env.NEW_RELIC_KEY) {
 var Hapi = require('hapi');
 var router = require('./src/routes');
 var plugins = require('./src/plugins');
-var server = new Hapi.Server();
+var options = {
+  cache: {
+    engine: require('catbox-memory')
+  }
+};
 
+var server = new Hapi.Server(options);
 
 server.connection({
   host: '0.0.0.0',
