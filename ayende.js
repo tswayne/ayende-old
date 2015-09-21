@@ -2,8 +2,8 @@ if (process.env.NEW_RELIC_KEY) {
   require('newrelic');
 }
 var Hapi = require('hapi');
-var router = require('./src/routes');
-var plugins = require('./src/plugins');
+var router = require('./server/init/routes');
+var plugins = require('./server/init/plugins');
 var server = new Hapi.Server();
 
 
@@ -12,15 +12,14 @@ server.connection({
   port: process.env.PORT || 5000
 });
 
-require('./src/lib/database/mysqlDatabase').initializeAccount();
+require('./server/config/database/setup').initializeAccount();
 
 var registerViews = function(server) {
   server.views({
     engines: {
-      html: require('handlebars')
+      hbs: require('handlebars')
     },
-    relativeTo: __dirname,
-    path: 'src/views',
+    path: 'server/views',
     layout: true
   });
 };

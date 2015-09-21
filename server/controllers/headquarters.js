@@ -1,4 +1,4 @@
-var service = require('../lib/service/headquarters');
+var service = require('../resources/headquarters');
 
 var getLocation = function(request, reply) {
   service.getAllLocationData(request.session.get('user').id, request.params.locationId, reply);

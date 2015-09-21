@@ -1,4 +1,4 @@
-var db = require('../database/mysqlDatabase');
+var db = require('../config/database/setup');
 
 var getLocationsForUser = function(userId, callback) {
     db.Location.findAll({userId: userId}).then(function(locations) {

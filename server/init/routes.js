@@ -1,7 +1,7 @@
-var homeController = require('./controllers/home');
-var headquartersController = require('./controllers/headquarters');
-var assetsController = require('./controllers/assets');
-var accountController = require('./controllers/account')
+var homeController = require('./../controllers/home');
+var headquartersController = require('./../controllers/headquarters');
+var assetsController = require('./../controllers/assets');
+var accountController = require('./../controllers/account');
 
 var addRoutes = function(server) {
     server.route([

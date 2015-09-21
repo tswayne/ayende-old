@@ -1,4 +1,4 @@
-var accountForm = require('../lib/forms/account-form');
+var accountForm = require('../config/forms/account-form');
 
 var index = {
   handler:  function(request, reply)

@@ -1,5 +1,5 @@
-var accountForm = require('../lib/forms/account-form');
-var service = require('../lib/service/account');
+var accountForm = require('../config/forms/account-form');
+var service = require('../resources/account');
 
 var login = {
     handler:  function(request, reply)

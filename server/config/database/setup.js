@@ -1,23 +1,7 @@
 var Sequelize = require('sequelize');
-var host = process.env.DBHOST || 'localhost';
-var dbName = process.env.DBNAME || 'local';
-var dbUser = process.env.DBUSER || 'root';
-var dbPassword = process.env.DBPW || '';
+var db = require('../../init/db');
 
-var sequelize = new Sequelize(dbName, dbUser, dbPassword, {
-  host: host,
-  dialect: 'mysql',
-  pool: {
-    max: 5,
-    min: 0,
-    idle: 10000
-  },
-  define: {
-    timestamps: false
-  }
-});
-
-module.exports.User = sequelize.define('user', {
+module.exports.User = db.define('user', {
   username: {
     type: Sequelize.STRING
   },
@@ -28,7 +12,7 @@ module.exports.User = sequelize.define('user', {
   freezeTableName: true
 });
 
-module.exports.Location = sequelize.define('location', {
+module.exports.Location = db.define('location', {
   xCoordinate: {
     type: Sequelize.INTEGER
   },
@@ -39,7 +23,7 @@ module.exports.Location = sequelize.define('location', {
   freezeTableName: true
 });
 
-module.exports.Troops = sequelize.define('troops', {
+module.exports.Troops = db.define('troops', {
   type: {
     type: Sequelize.STRING
   }
@@ -47,12 +31,9 @@ module.exports.Troops = sequelize.define('troops', {
   freezeTableName: true
 });
 
-module.exports.Resources = sequelize.define('resources', {
+module.exports.Resources = db.define('resources', {
   type: Sequelize.STRING
 });
-
-
-module.exports.sequelize = sequelize;
 
 module.exports.initializeAccount = function() {
 
@@ -62,11 +43,11 @@ module.exports.initializeAccount = function() {
 
   var Troops = exports.Troops;
 
-  var LocationsTroops = sequelize.define('locationsTroops', {
+  var LocationsTroops = db.define('locationsTroops', {
     amount: Sequelize.INTEGER
   });
 
-  var Attacks = sequelize.define('attacks', {
+  var Attacks = db.define('attacks', {
     id: {
       type: Sequelize.INTEGER,
       primaryKey: true,
@@ -75,13 +56,13 @@ module.exports.initializeAccount = function() {
     started: Sequelize.DATE
   });
 
-  var AttackingTroops = sequelize.define('attackingTroops', {
+  var AttackingTroops = db.define('attackingTroops', {
     amount: Sequelize.INTEGER
   });
 
   var Resources = module.exports.Resources;
 
-  var LocationsResources = sequelize.define('locationsResources', {
+  var LocationsResources = db.define('locationsResources', {
     ammount: Sequelize.INTEGER
   });
 
@@ -94,8 +75,8 @@ module.exports.initializeAccount = function() {
   Location.belongsToMany(Troops, { through: LocationsTroops});
   Location.hasMany(Attacks);
   User.hasMany(Location);
-  sequelize.sync();              //--uncomment and comment force: true to keep local data
-  //sequelize.sync({force: true}).then(function(){
+  db.sync();              //--uncomment and comment force: true to keep local data
+  //db.sync({force: true}).then(function(){
   //  require('./provision').provision();
   //});
 };
