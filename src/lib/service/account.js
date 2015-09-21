@@ -24,7 +24,11 @@ var init = function(userData, callback) {
 };
 
 var validate = function(loginInfo, callback) {
-    db.User.findOne({username: loginInfo.username})
+    db.User.findOne({
+        where: {
+            username: loginInfo.username
+        }
+    })
       .then(function(user) {
         if (user && loginInfo.password == user.password) {
           user.getLocations().then(function(locations) {
