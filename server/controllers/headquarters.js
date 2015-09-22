@@ -1,33 +1,45 @@
 var service = require('../resources/headquarters');
 
-var getLocation = function(request, reply) {
-  service.getAllLocationData(request.session.get('user').id, request.params.locationId, reply);
-};
+
 
 var indexAction = {
   auth: 'session',
   handler:  function(request, reply)
   {
-    service.getLocationsForUser(request.session.get('user').id, function(locations) {
-      reply.view('headquarters/index', {locations: locations});
-    });
+    var user = request.session.get('user');
+    if (!user) {
+      reply.redirect('/');
+    } else {
+      service.getLocationsForUser(user.id, function(locations) {
+        reply.view('headquarters/index', {locations: locations});
+      });
+    }
   }
 };
 
+var getLocationPreHandler = function(request, reply) {
+  var user = request.session.get('user');
+  if (!user.id) {
+    reply();
+  } else {
+    service.getAllLocationData(user.id, request.params.locationId, reply);
+  }
+};
 
 var locationAction = {
   auth: 'session',
   pre: [
-    { method: getLocation, assign: 'location' }
+    { method: getLocationPreHandler, assign: 'location' }
   ],
   handler: function(request, reply)
   {
     var location = request.pre.location;
-    console.log(location);
     if (!location) {
-      reply.redirect('/headquarters/index')
+      reply.redirect('/headquarters');
+    } else {
+      console.log(location);
+      reply.view('headquarters/location', {location: location});
     }
-    reply.view('headquarters/location');
   }
 };
 

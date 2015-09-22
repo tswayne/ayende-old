@@ -2,10 +2,17 @@ if (process.env.NEW_RELIC_KEY) {
   require('newrelic');
 }
 var Hapi = require('hapi');
+
 var router = require('./server/init/routes');
 var plugins = require('./server/init/plugins');
-var server = new Hapi.Server();
+var options = {
+  cache: {
+    engine: require('catbox-memory')
+  }
+};
 
+
+var server = new Hapi.Server(options);
 
 server.connection({
   host: '0.0.0.0',

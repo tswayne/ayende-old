@@ -1,17 +1,30 @@
 var db = require('../config/database/setup');
 
 var getLocationsForUser = function(userId, callback) {
-    db.Location.findAll({userId: userId}).then(function(locations) {
-      callback(locations);
-    })
+    db.Location.findAll({
+        where: {
+            userId: userId
+        }
+    }).then(function(locations) {
+        callback(locations);
+    });
+
 };
 
 var getAllLocationData = function(userId, locationId, callback) {
-    db.Location.findOne({id: locationId, userId: userId}).then(function(location) {
+    db.Location.findOne({
+        where: {
+            id: locationId,
+            userId: userId
+        }
+    }).then(function(location) {
         if (!location) {
             callback(null)
         } else {
-            callback(location);
+            location.getTroops().then(function(troops){
+                location.troops = troops;
+                callback(location);
+            })
         }
     })
 };

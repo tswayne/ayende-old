@@ -7,10 +7,11 @@ var registerPlugins = function(server, callback) {
     {
       register: require('yar'),
       options: {
-        storeBlank: false,
+        name: 'ayende-session',
+        maxCookieSize: 0,
         cookieOptions: {
           password: 'password',
-          isSecure: true
+          isSecure: false
         }
       }
     }
