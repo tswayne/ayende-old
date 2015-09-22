@@ -1,5 +1,5 @@
 'use strict';
-var db = require('./mysqlDatabase');
+var db = require('./setup');
 
 
 var provision = function() {

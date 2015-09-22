@@ -1,4 +1,4 @@
-var service = require('../lib/service/headquarters');
+var service = require('../resources/headquarters');
 
 
 

@@ -3,7 +3,7 @@
 module.exports = {
   bower: {
       handler: {
-          directory: {path: './src/public/components'}
+          directory: {path: './client/components'}
       }
   }
 };
