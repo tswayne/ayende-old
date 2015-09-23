@@ -52,8 +52,9 @@ var save ={
     {
         accountForm.handle(request.payload, {
             success: function (form) {
-                service.initializeAccount(request.payload, function(){
+                service.initializeAccount(request.payload, function(user){
                   request.auth.session.set(request.payload);
+                  request.session.set('user', {id: user.id});
                   reply.redirect('/headquarters');
                 });
             },
