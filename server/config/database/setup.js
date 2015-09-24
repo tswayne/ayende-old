@@ -35,7 +35,7 @@ module.exports.Resources = db.define('resources', {
   type: Sequelize.STRING
 });
 
-module.exports.initializeAccount = function() {
+module.exports.initializeAccount = function(provisionDatabase) {
 
   var User = exports.User;
 
@@ -75,8 +75,13 @@ module.exports.initializeAccount = function() {
   Location.belongsToMany(Troops, { through: LocationsTroops});
   Location.hasMany(Attacks);
   User.hasMany(Location);
-  db.sync();              //--uncomment and comment force: true to keep local data
-  //db.sync({force: true}).then(function(){
-  //  require('./provision').provision();
-  //});
+
+  if (provisionDatabase) {
+    db.sync({force: true}).then(function(){
+      require('./provision').provision();
+    });
+  } else {
+    db.sync();
+  }
+
 };

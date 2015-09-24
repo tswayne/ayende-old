@@ -1,5 +1,6 @@
 'use strict';
 var db = require('../config/database/setup');
+var bcrypt = require('bcrypt');
 var Promise = require('promise');
 var createCoordinate = function() {
   var coord = Math.random() * 10;
@@ -7,32 +8,41 @@ var createCoordinate = function() {
 };
 
 var init = function(userData, callback) {
-  Promise.all({
-    user : db.User.create(userData),
-    troops : db.Troops.findOne({type: 0}),
-    resources : db.Resources.findOne({type: 0})
-  }).then(function(response) {
-    return response.location.addResource(response.resources, {amount: 1000});
-  }).then(function(){
-      return response.location.addTroop(response.troops, {amount: 100})
-  }).then(function(){
-      return response.user.addLocation(response.location)
-  }).nodeify(callback);
+  userData.password = bcrypt.hashSync(userData.password, 6);
+
+  Promise.all([
+     db.User.create(userData),
+     db.Location.create({xCoordinate: createCoordinate(), yCoordinate: createCoordinate()}),
+     db.Troops.findOne({where: {type: 0}}),
+     db.Resources.findOne({where: {type: 0}})
+  ]).then(function(response) {
+    return Promise.all([
+      response[1].addResource(response[3], {amount: 1000}),
+      response[1].addTroop(response[2], {amount: 100})
+    ]).then(function () {
+      return response[0].addLocation(response[1]);
+    })
+  }).then(function(user) {
+    callback(user);
+  });
 };
 
 var validate = function(loginInfo, callback) {
-    db.User.findOne({username: loginInfo.username})
+    db.User.findOne({
+      where: {username: loginInfo.username}
+    })
       .then(function(user) {
-        if (user && loginInfo.password == user.password) {
+        if (user && bcrypt.compareSync(loginInfo.password, user.password)) {
           user.getLocations().then(function(locations) {
-              user.locations = locations;
-            callback(true, user);
+            user.locations = locations;
+            callback(user);
           })
         } else {
-          callback(false);
+          callback(null);
         }
       });
 };
 
 module.exports.initializeAccount = init;
 module.exports.validate = validate;
+

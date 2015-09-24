@@ -19,7 +19,8 @@ server.connection({
   port: process.env.PORT || 5000
 });
 
-require('./server/config/database/setup').initializeAccount();
+var provision = !!process.argv[2];
+require('./server/config/database/setup').initializeAccount(provision);
 
 var registerViews = function(server) {
   server.views({
