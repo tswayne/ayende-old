@@ -34,11 +34,11 @@ var validate = function(loginInfo, callback) {
       .then(function(user) {
         if (user && bcrypt.compareSync(loginInfo.password, user.password)) {
           user.getLocations().then(function(locations) {
-              user.locations = locations;
-            callback(true, user);
+            user.locations = locations;
+            callback(user);
           })
         } else {
-          callback(false);
+          callback(null);
         }
       });
 };

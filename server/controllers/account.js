@@ -4,24 +4,25 @@ var service = require('../resources/account');
 var login = {
     handler:  function(request, reply)
     {
+        var successfulLogin = function (form) {
+            service.validate(request.payload, function(user) {
+                if (user) {
+                    request.auth.session.set(request.payload);
+                    request.session.set('user', {id: user.id});
+                    if (user.locations.length === 0) {
+                        reply.redirect('/');
+                    } else if (user.locations.length === 1) {
+                        reply.redirect('/headquarters/location/' + user.locations[0].id);
+                    } else {
+                        reply.redirect('/headquarters');
+                    }
+                } else {
+                    reply.redirect('/');
+                }
+            });
+        };
         accountForm.handle(request.payload, {
-            success: function (form) {
-                service.validate(request.payload, function(isValid, user) {
-                   if (isValid) {
-                       request.auth.session.set(request.payload);
-                       request.session.set('user', {id: user.id});
-                       if (user.locations.length === 0) {
-                           reply.redirect('/');
-                       } else if (user.locations.length === 1) {
-                           reply.redirect('/headquarters/location/' + user.locations[0].id);
-                       } else {
-                           reply.redirect('/headquarters');
-                       }
-                   } else {
-                       reply.redirect('/');
-                   }
-                });
-            },
+            success: successfulLogin,
             error: function (form) {
                 reply.view("account/create", {form: form.toHTML()})
             },
