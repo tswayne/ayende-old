@@ -7,6 +7,7 @@
     {{#each location.resources}}
         {{type}} - {{locationsResources.amount}}
     {{/each}}
-
-    {{{troopForm}}}
+    <form method="POST" action="/purchase-troops">
+        {{{troopForm}}}
+    </form>
 </div>

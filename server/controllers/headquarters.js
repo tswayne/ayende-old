@@ -1,5 +1,5 @@
 var service = require('../resources/headquarters');
-var troopForm = require('../config/forms/troop-form');
+var troopForm = require('../config/forms/troop-form').purchaseTroops;
 
 
 var indexAction = {

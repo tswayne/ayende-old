@@ -8,7 +8,7 @@ var widgets = require('forms').widgets;
 var purchaseTroopsForm = forms.create({
     type: fields.string({
         required: true,
-        widget: widgets.hidden,
+        widget: widgets.hidden(),
         errorAfterField: true
     }),
     amount: fields.string({
