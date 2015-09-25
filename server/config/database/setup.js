@@ -35,6 +35,15 @@ module.exports.Resources = db.define('resources', {
   type: Sequelize.STRING
 });
 
+module.exports.Attacks = db.define('attacks', {
+  id: {
+    type: Sequelize.INTEGER,
+    primaryKey: true,
+    autoIncrement: true
+  },
+  started: Sequelize.DATE
+});
+
 module.exports.initializeAccount = function(provisionDatabase) {
 
   var User = exports.User;
@@ -47,14 +56,7 @@ module.exports.initializeAccount = function(provisionDatabase) {
     amount: Sequelize.INTEGER
   });
 
-  var Attacks = db.define('attacks', {
-    id: {
-      type: Sequelize.INTEGER,
-      primaryKey: true,
-      autoIncrement: true
-    },
-    started: Sequelize.DATE
-  });
+  var Attacks = exports.Attacks;
 
   var AttackingTroops = db.define('attackingTroops', {
     amount: Sequelize.INTEGER
@@ -63,7 +65,7 @@ module.exports.initializeAccount = function(provisionDatabase) {
   var Resources = module.exports.Resources;
 
   var LocationsResources = db.define('locationsResources', {
-    ammount: Sequelize.INTEGER
+    amount: Sequelize.INTEGER
   });
 
   Resources.belongsToMany(Location, {through: LocationsResources});

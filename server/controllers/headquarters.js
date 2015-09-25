@@ -1,5 +1,5 @@
 var service = require('../resources/headquarters');
-
+var troopForm = require('../config/forms/troop-form');
 
 
 var indexAction = {
@@ -19,7 +19,7 @@ var indexAction = {
 
 var getLocationPreHandler = function(request, reply) {
   var user = request.session.get('user');
-  if (!user.id) {
+  if (!user) {
     reply();
   } else {
     service.getAllLocationData(user.id, request.params.locationId, reply);
@@ -37,8 +37,7 @@ var locationAction = {
     if (!location) {
       reply.redirect('/headquarters');
     } else {
-      console.log(location);
-      reply.view('headquarters/location', {location: location});
+      reply.view('headquarters/location', {location: location, troopForm: troopForm.toHTML()});
     }
   }
 };

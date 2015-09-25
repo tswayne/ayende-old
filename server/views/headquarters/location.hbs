@@ -3,4 +3,10 @@
     {{#each location.troops}}
     {{type}} - {{locationsTroops.amount}}
     {{/each}}
+    <br>
+    {{#each location.resources}}
+        {{type}} - {{locationsResources.amount}}
+    {{/each}}
+
+    {{{troopForm}}}
 </div>

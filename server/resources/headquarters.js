@@ -1,4 +1,5 @@
 var db = require('../config/database/setup');
+var Promise = require('promise');
 
 var getLocationsForUser = function(userId, callback) {
     db.Location.findAll({
@@ -21,10 +22,19 @@ var getAllLocationData = function(userId, locationId, callback) {
         if (!location) {
             callback(null)
         } else {
-            location.getTroops().then(function(troops){
-                location.troops = troops;
-                callback(location);
-            })
+            Promise.all([
+              location.getTroops(),
+              location.getResources(),
+              location.getAttacks()
+            ]).then(function(results) {
+
+                location.troops = results[0];
+                location.resources = results[1];
+                location.attacks = results[2];
+
+                callback(location)
+            });
+
         }
     })
 };
