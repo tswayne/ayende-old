@@ -2,6 +2,7 @@ var homeController = require('./../controllers/home');
 var headquartersController = require('./../controllers/headquarters');
 var assetsController = require('./../controllers/assets');
 var accountController = require('./../controllers/account');
+var troopsController = require('./../controllers/troops');
 
 var addRoutes = function(server) {
     server.route([
@@ -12,7 +13,8 @@ var addRoutes = function(server) {
       {method: 'GET', path: '/create-account', config: accountController.create},
       {method: 'POST', path: '/create-account', config: accountController.save},
       {method: 'GET', path: '/logout', config: accountController.logout},
-      {method: 'POST', path: '/login', config: accountController.login}
+      {method: 'POST', path: '/login', config: accountController.login},
+      {method: 'POST', path: '/purchase-troops', config: troopsController.purchaseTroops}
     ]);
 };
 

@@ -6,7 +6,7 @@ var validators = forms.validators;
 var widgets = require('forms').widgets;
 
 var purchaseTroopsForm = forms.create({
-    type: fields.string({
+    location: fields.string({
         required: true,
         widget: widgets.hidden(),
         errorAfterField: true
