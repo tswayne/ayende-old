@@ -14,7 +14,7 @@ var addRoutes = function(server) {
       {method: 'POST', path: '/create-account', config: accountController.save},
       {method: 'GET', path: '/logout', config: accountController.logout},
       {method: 'POST', path: '/login', config: accountController.login},
-      {method: 'POST', path: '/purchase-troops', config: troopsController.purchaseTroops}
+      {method: 'POST', path: '/headquarters/location/{locationId}', config: troopsController.purchaseTroops},
     ]);
 };
 

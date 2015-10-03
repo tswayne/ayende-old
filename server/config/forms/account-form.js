@@ -8,7 +8,7 @@ var widgets = require('forms').widgets;
 var accountForm = forms.create({
     username: fields.string({
         required: true,
-        widget: widgets.text({ classes: ['form-control'] }),
+        widget: widgets.text({ classes: ['form-control']}),
         errorAfterField: true,
         validators: [validators.minlength('2'), validators.maxlength('20')]
     }),

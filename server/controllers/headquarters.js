@@ -38,7 +38,6 @@ var locationAction = {
     if (!location) {
       reply.redirect('/headquarters');
     } else {
-      troopForm.fields.location = troopForm.fields.location.bind(location.id);
       reply.view('headquarters/location', {location: location, troopForm: troopForm.toHTML()});
     }
   }

@@ -7,7 +7,10 @@
     {{#each location.resources}}
         {{type}} - {{locationsResources.amount}}
     {{/each}}
-    <form method="POST" action="/purchase-troops">
+    <h2>Purchase Troops</h2>
+    <form method="POST" action="/headquarters/location/{{location.id}}">
         {{{troopForm}}}
+        <br>
+        <button class="btn btn-primary btn-block" type="submit">Create Account</button>
     </form>
 </div>

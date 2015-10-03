@@ -6,16 +6,12 @@ var validators = forms.validators;
 var widgets = require('forms').widgets;
 
 var purchaseTroopsForm = forms.create({
-    location: fields.string({
+    soldierAmount: fields.number({
         required: true,
-        widget: widgets.hidden(),
-        errorAfterField: true
-    }),
-    amount: fields.string({
-        required: true,
+        label: 'Soldiers',
         errorAfterField: true,
         widget: widgets.text({ classes: ['form-control'] }),
-        validators: [validators.min('1'), validators.integer]
+        validators: [validators.min('1')]
     })
 });
 
