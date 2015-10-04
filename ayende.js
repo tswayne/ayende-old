@@ -16,7 +16,7 @@ var server = new Hapi.Server(options);
 
 server.connection({
   host: '0.0.0.0',
-  port: process.env.PORT || 5000
+  port: process.env.PORT || 5050
 });
 
 var provision = !!process.argv[2];
