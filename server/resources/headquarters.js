@@ -1,4 +1,6 @@
 var db = require('../config/database/setup');
+var Promise = require('promise');
+var resources = require('../resources/resources');
 
 var getLocationsForUser = function(userId, callback) {
     db.Location.findAll({
@@ -21,12 +23,40 @@ var getAllLocationData = function(userId, locationId, callback) {
         if (!location) {
             callback(null)
         } else {
-            location.getTroops().then(function(troops){
-                location.troops = troops;
-                callback(location);
-            })
+            Promise.all([
+              location.getTroops(),
+              location.getResources(),
+              location.getAttacks()
+            ]).then(function(results) {
+                location.troops = results[0];
+                location.resources = results[1];
+                location.attacks = results[2];
+
+                callback(location)
+            });
+
         }
     })
+};
+
+module.exports.purchaseTroopsForLocation = function(location, requestedAmount, troopType, callback) {
+    var troopCost = location.troops[troopType].cost;
+    var locationGold = location.resources[resources.goldIndex].locationsResources.amount;
+    var purchaseTotal = troopCost * requestedAmount;
+
+    if (locationGold < purchaseTotal ) {
+        return callback({type: 'notEnough'}, location);
+    }
+
+    location.troops[troopType].locationsTroops.amount += requestedAmount;
+    location.resources[resources.goldIndex].locationsResources.amount -= purchaseTotal;
+    Promise.all([
+        location.troops[troopType].locationsTroops.save(),
+        location.resources[resources.goldIndex].locationsResources.save()
+    ]).then(function(){
+        callback(null, location);
+    });
+
 };
 
 module.exports.getLocationsForUser = getLocationsForUser;

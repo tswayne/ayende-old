@@ -26,6 +26,9 @@ module.exports.Location = db.define('location', {
 module.exports.Troops = db.define('troops', {
   type: {
     type: Sequelize.STRING
+  },
+  cost: {
+    type: Sequelize.INTEGER
   }
 }, {
   freezeTableName: true
@@ -35,7 +38,16 @@ module.exports.Resources = db.define('resources', {
   type: Sequelize.STRING
 });
 
-module.exports.initializeAccount = function() {
+module.exports.Attacks = db.define('attacks', {
+  id: {
+    type: Sequelize.INTEGER,
+    primaryKey: true,
+    autoIncrement: true
+  },
+  started: Sequelize.DATE
+});
+
+module.exports.initializeAccount = function(provisionDatabase) {
 
   var User = exports.User;
 
@@ -47,14 +59,7 @@ module.exports.initializeAccount = function() {
     amount: Sequelize.INTEGER
   });
 
-  var Attacks = db.define('attacks', {
-    id: {
-      type: Sequelize.INTEGER,
-      primaryKey: true,
-      autoIncrement: true
-    },
-    started: Sequelize.DATE
-  });
+  var Attacks = exports.Attacks;
 
   var AttackingTroops = db.define('attackingTroops', {
     amount: Sequelize.INTEGER
@@ -63,7 +68,7 @@ module.exports.initializeAccount = function() {
   var Resources = module.exports.Resources;
 
   var LocationsResources = db.define('locationsResources', {
-    ammount: Sequelize.INTEGER
+    amount: Sequelize.INTEGER
   });
 
   Resources.belongsToMany(Location, {through: LocationsResources});
@@ -75,8 +80,13 @@ module.exports.initializeAccount = function() {
   Location.belongsToMany(Troops, { through: LocationsTroops});
   Location.hasMany(Attacks);
   User.hasMany(Location);
-  db.sync();              //--uncomment and comment force: true to keep local data
-  //db.sync({force: true}).then(function(){
-  //  require('./provision').provision();
-  //});
+
+  if (provisionDatabase) {
+    db.sync({force: true}).then(function(){
+      require('./provision').provision();
+    });
+  } else {
+    db.sync();
+  }
+
 };

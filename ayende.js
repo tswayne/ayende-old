@@ -16,10 +16,11 @@ var server = new Hapi.Server(options);
 
 server.connection({
   host: '0.0.0.0',
-  port: process.env.PORT || 5000
+  port: process.env.PORT || 5050
 });
 
-require('./server/config/database/setup').initializeAccount();
+var provision = !!process.argv[2];
+require('./server/config/database/setup').initializeAccount(provision);
 
 var registerViews = function(server) {
   server.views({
