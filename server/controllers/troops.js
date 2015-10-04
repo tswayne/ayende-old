@@ -26,7 +26,19 @@ module.exports.purchaseTroops = {
       troopForm.handle(request.payload, {
         success: function (form) {
           form.data.soldierAmount = Math.round(form.data.soldierAmount);
-          reply.view(viewPath, {location: location, troopForm: form.toHTML()})
+          service.purchaseTroopsForLocation(location, form.data.soldierAmount, 0, function(err, updatedLocation){
+            var purchaseError;
+            if (err) {
+              switch(err.type) {
+                case 'notEnough':
+                  purchaseError = 'Not enough gold to purchase troops!';
+                  break;
+                default:
+                  purchaseError = 'Purchase not completed, something went wrong!'
+              }
+            }
+            reply.view(viewPath, {location: updatedLocation, troopForm: form.toHTML(), purchaseError: purchaseError})
+          });
         },
         error: function (form) {
           reply.view(viewPath, {location: location, troopForm: form.toHTML()})

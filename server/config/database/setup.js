@@ -26,6 +26,9 @@ module.exports.Location = db.define('location', {
 module.exports.Troops = db.define('troops', {
   type: {
     type: Sequelize.STRING
+  },
+  cost: {
+    type: Sequelize.INTEGER
   }
 }, {
   freezeTableName: true
