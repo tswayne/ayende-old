@@ -31,7 +31,6 @@ var getAllLocationData = function(userId, locationId, callback) {
                 location.troops = results[0];
                 location.resources = results[1];
                 location.attacks = results[2];
-
                 callback(location)
             });
 
