@@ -1,6 +1,6 @@
-var db = require('../config/database/setup');
+var db = require('../../config/database/setup');
 var Promise = require('promise');
-var resources = require('../resources/resources');
+var resources = require('../../resources/resources');
 
 var getLocationsForUser = function(userId, callback) {
     db.Location.findAll({

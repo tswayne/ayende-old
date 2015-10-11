@@ -1,12 +1,15 @@
 var accountForm = require('../config/forms/account-form');
-var service = require('../resources/account');
+var service = require('../library/clients/account');
+var bcrypt = require('bcrypt');
 
 var login = {
     handler:  function(request, reply)
     {
         var successfulLogin = function (form) {
-            service.validate(request.payload, function(user) {
-                if (user) {
+            console.log(form)
+            service.getUser(request.payload, function(user, password) {
+                if (user && password) {
+                    bcrypt.compareSync(request.payload.password, user.password);
                     request.auth.session.set(request.payload);
                     request.session.set('user', {id: user.id});
                     if (user.locations.length === 0) {

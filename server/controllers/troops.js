@@ -1,6 +1,6 @@
 'use strict';
 var troopForm = require('../config/forms/troop-form').purchaseTroops;
-var service = require('../resources/headquarters');
+var service = require('../library/clients/headquarters');
 
 var getLocationPreHandler = function(request, reply) {
   var user = request.session.get('user');

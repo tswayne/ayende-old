@@ -1,4 +1,8 @@
+var production = false;
 if (process.env.NEW_RELIC_KEY) {
+  production = true;
+}
+if (production) {
   require('newrelic');
 }
 var Hapi = require('hapi');
@@ -19,7 +23,7 @@ server.connection({
   port: process.env.PORT || 5050
 });
 
-var provision = !!process.argv[2];
+var provision = !!process.argv[2] || production;
 require('./server/config/database/setup').initializeAccount(provision);
 
 var registerViews = function(server) {

@@ -14,7 +14,7 @@ var stubbedRequest = {
   session: {}
 };
 var stubbedReply = {};
-var serviceStub = require('../../../server/resources/account');
+var serviceStub = require('../../../server/library/clients/account');
 
 describe('successful login', function() {
   it ('redirects user to headquarters home if user has multiple locations', function(done) {

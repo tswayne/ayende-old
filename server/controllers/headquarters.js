@@ -1,4 +1,4 @@
-var service = require('../resources/headquarters');
+var service = require('../library/clients/headquarters');
 var troopForm = require('../config/forms/troop-form').purchaseTroops;
 
 

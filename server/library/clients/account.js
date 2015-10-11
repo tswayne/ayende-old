@@ -1,6 +1,5 @@
 'use strict';
-var db = require('../config/database/setup');
-var bcrypt = require('bcrypt');
+var db = require('../../config/database/setup');
 var Promise = require('promise');
 var createCoordinate = function() {
   var coord = Math.random() * 10;
@@ -27,22 +26,21 @@ var init = function(userData, callback) {
   });
 };
 
-var validate = function(loginInfo, callback) {
-    db.User.findOne({
-      where: {username: loginInfo.username}
-    })
-      .then(function(user) {
-        if (user && bcrypt.compareSync(loginInfo.password, user.password)) {
-          user.getLocations().then(function(locations) {
-            user.locations = locations;
-            callback(user);
-          })
-        } else {
-          callback(null);
-        }
-      });
-};
 
 module.exports.initializeAccount = init;
-module.exports.validate = validate;
+module.exports.getUser = function(loginInfo, callback) {
+  db.User.findOne({
+    where: {username: loginInfo.username}
+  })
+  .then(function(user) {
+    if (user) {
+      user.getLocations().then(function(locations) {
+        user.locations = locations;
+        callback(user, user.password);
+      })
+    } else {
+      callback(null);
+    }
+  });
+};
 
