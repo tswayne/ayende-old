@@ -6,7 +6,6 @@ var login = {
     handler:  function(request, reply)
     {
         var successfulLogin = function (form) {
-            console.log(form)
             service.getUser(request.payload, function(user, password) {
                 if (user && password) {
                     bcrypt.compareSync(request.payload.password, user.password);

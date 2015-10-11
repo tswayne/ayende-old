@@ -7,5 +7,5 @@ var lab = exports.lab = Lab.script();
 var sinon = require('sinon');
 var describe = lab.describe;
 var it = lab.it;
-var user = require('../../../server/library/domain-models/user.js');
+var user = require('../../../../server/library/domain-models/user.js');
 
