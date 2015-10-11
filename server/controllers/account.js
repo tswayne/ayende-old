@@ -7,8 +7,8 @@ var login = {
     {
         var successfulLogin = function (form) {
             service.getUser(request.payload, function(user, password) {
-                if (user && password) {
-                    bcrypt.compareSync(request.payload.password, user.password);
+                if (user && password && bcrypt.compareSync(request.payload.password, user.password)) {
+
                     request.auth.session.set(request.payload);
                     request.session.set('user', {id: user.id});
                     if (user.locations.length === 0) {

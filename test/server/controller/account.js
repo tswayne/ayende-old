@@ -25,6 +25,7 @@ describe('successful login', function() {
   it ('redirects user to headquarters home if user has multiple locations', function(done) {
       var userWithLocations = {
         id: 7,
+        password: 'testPassword',
         locations: [{id: 1}, {id: 2}]
       };
       stubbedRequest.auth.session.set = sinon.spy();
@@ -48,6 +49,7 @@ describe('successful login', function() {
   it ('redirects user to only locations headquarters if user has one location', function(done) {
       var userWithLocations = {
         id: 7,
+        password: 'testPassword',
         locations: [{id: 1}]
       };
       stubbedRequest.auth.session.set = sinon.spy();
@@ -71,6 +73,7 @@ describe('successful login', function() {
   it ('redirects user to home page if they do not have any locations', function(done) {
     var userWithLocations = {
       id: 7,
+      password: 'testPassword',
       locations: []
     };
     stubbedRequest.auth.session.set = sinon.spy();
