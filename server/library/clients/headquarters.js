@@ -47,10 +47,10 @@ module.exports.purchaseTroopsForLocation = function(location, requestedAmount, t
         return callback({type: 'notEnough'}, location);
     }
 
-    location.troops[troopType].locationsTroops.amount += requestedAmount;
+    location.troops[troopType].locationsResources.amount += requestedAmount;
     location.resources[resources.goldIndex].locationsResources.amount -= purchaseTotal;
     Promise.all([
-        location.troops[troopType].locationsTroops.save(),
+        location.troops[troopType].locationsResources.save(),
         location.resources[resources.goldIndex].locationsResources.save()
     ]).then(function(){
         callback(null, location);

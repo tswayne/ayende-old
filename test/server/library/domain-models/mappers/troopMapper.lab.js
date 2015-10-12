@@ -4,7 +4,6 @@ var Code = require('code');
 var expect = Code.expect;
 var Lab = require('lab');
 var lab = exports.lab = Lab.script();
-var sinon = require('sinon');
 var describe = lab.describe;
 var it = lab.it;
 var troopMapper = require('../../../../../server/library/domain-models/mappers/troopMapper.js');
@@ -15,7 +14,7 @@ describe('map', function() {
       id: 1,
       type: 'Soldiers',
       cost: 500,
-      locationsTroops: {
+      locationsResources: {
         amount: 100,
         locationId: 1,
         troopId: 1
@@ -37,7 +36,7 @@ describe('map', function() {
     var troopDataBaseObject = [{
       id: 1,
       type: 'Soldiers',
-      locationsTroops: {
+      locationsResources: {
         amount: 100
       }
     }];
@@ -55,7 +54,7 @@ describe('map', function() {
       id: 1,
       type: 'Soldiers',
       cost: 500,
-      locationsTroops: {
+      locationsResources: {
         amount: 100,
         locationId: 1,
         troopId: 1

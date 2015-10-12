@@ -66,7 +66,7 @@ describe('map', function() {
         id: 1,
         type: 'Soldiers',
         cost: 500,
-        locationsTroops: {
+        locationsResources: {
           amount: 100,
           locationId: 1,
           troopId: 1
