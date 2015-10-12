@@ -27,6 +27,22 @@ describe('map', function() {
     locationMapper.map(locationDataObject, callback);
   });
 
+  it('maps empty dependencies to empty objects', function (done) {
+    var locationDataObject = {
+      id: 1,
+      xCoordinate: 5,
+      yCoordinate: 9
+    };
+
+    var callback = function(err, location) {
+      expect(location.id).to.equal(1);
+      expect(location.troops).to.deep.equal({});
+      done();
+    };
+
+    locationMapper.map(locationDataObject, callback);
+  });
+
   it('returns with error for invalid location', function (done) {
     var locationDataObject = {
       xCoordinate: 5
@@ -39,6 +55,7 @@ describe('map', function() {
 
     locationMapper.map(locationDataObject, callback);
   });
+
 
   it('maps locations troops when troop data exists', function (done) {
     var locationDataObject = {

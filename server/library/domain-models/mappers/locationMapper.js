@@ -18,21 +18,16 @@ module.exports.map = function(locationData, callback) {
       return callback(err, null);
     }
     async.parallel({
-      soldiers: function(asyncCallback) {
-        if (locationData.troops && locationData.troops.length > 0) {
-          troopMapper.map(locationData.troops[0], asyncCallback)
-        } else {
-          asyncCallback(null, null)
-        }
+      troops: function(asyncCallback) {
+        troopMapper.map(locationData.troops, asyncCallback)
       }
     }, function(err, results) {
       if (err) {
         return callback(err);
       }
-      validatedLocationDataObject.troops = {};
-      if (results.soldiers) {
-        validatedLocationDataObject.troops.soldiers = results.soldiers;
-      }
+
+      validatedLocationDataObject.troops = results.troops;
+
       return callback(err, location.construct(validatedLocationDataObject));
     });
   });
