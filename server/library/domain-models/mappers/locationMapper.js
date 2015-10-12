@@ -5,6 +5,7 @@ var locationSchema = require('../../../config/joi/locationSchema').schema;
 var location = require('../location');
 var async = require('async');
 var troopMapper = require('./troopMapper');
+var resourceMapper = require('./resourceMapper');
 
 module.exports.map = function(locationData, callback) {
   var locationDataObject = {
@@ -19,7 +20,10 @@ module.exports.map = function(locationData, callback) {
     }
     async.parallel({
       troops: function(asyncCallback) {
-        troopMapper.map(locationData.troops, asyncCallback)
+        troopMapper.map(locationData.troops, asyncCallback);
+      },
+      resources: function(asyncCallback) {
+        resourceMapper.map(locationData.resources, asyncCallback);
       }
     }, function(err, results) {
       if (err) {
@@ -27,6 +31,7 @@ module.exports.map = function(locationData, callback) {
       }
 
       validatedLocationDataObject.troops = results.troops;
+      validatedLocationDataObject.resources = results.resources;
 
       return callback(err, location.construct(validatedLocationDataObject));
     });
