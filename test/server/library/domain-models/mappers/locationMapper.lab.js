@@ -8,6 +8,8 @@ var sinon = require('sinon');
 var describe = lab.describe;
 var it = lab.it;
 var locationMapper = require('../../../../../server/library/domain-models/mappers/locationMapper.js');
+var databaseFixture = require('../../../../fixtures/database-fixtures');
+
 
 describe('map', function() {
   it('maps location data to domain object', function (done) {
@@ -37,6 +39,7 @@ describe('map', function() {
     var callback = function(err, location) {
       expect(location.id).to.equal(1);
       expect(location.troops).to.deep.equal({});
+      expect(location.resources).to.deep.equal({});
       done();
     };
 
@@ -77,6 +80,23 @@ describe('map', function() {
     var callback = function(err, location) {
       expect(location.id).to.equal(1);
       expect(location.troops.soldiers.type).to.equal('Soldiers');
+      done();
+    };
+
+    locationMapper.map(locationDataObject, callback);
+  });
+
+  it('maps locations troops when troop data exists', function (done) {
+    var locationDataObject = {
+      id: 1,
+      xCoordinate: 5,
+      yCoordinate: 9,
+      resources: databaseFixture.resource()
+    };
+
+    var callback = function(err, location) {
+      expect(location.id).to.equal(1);
+      expect(location.resources.gold.type).to.equal('Gold');
       done();
     };
 
