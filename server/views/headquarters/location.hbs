@@ -2,11 +2,11 @@
 
     <h1>HQ</h1>
     {{#each location.troops}}
-    {{type}} - {{locationsTroops.amount}}
+    {{type}} - {{amount}}
     {{/each}}
     <br>
     {{#each location.resources}}
-        {{type}} - {{locationsResources.amount}}
+        {{type}} - {{amount}}
     {{/each}}
     <h2>Purchase Troops</h2>
     {{#if purchaseError}}

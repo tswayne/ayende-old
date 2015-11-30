@@ -12,7 +12,7 @@ var mapIndividualTroop = function(troopData, index, callback) {
       id: troopData[index].id,
       type: troopData[index].type,
       cost: troopData[index].cost,
-      amount: troopData[index].locationsResources.amount
+      amount: troopData[index].locationsTroops.amount
     };
   } catch (mapError) {
     return callback(mapError, null);

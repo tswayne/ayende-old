@@ -14,7 +14,7 @@ describe('map', function() {
       id: 1,
       type: 'Soldiers',
       cost: 500,
-      locationsResources: {
+      locationsTroops: {
         amount: 100,
         locationId: 1,
         troopId: 1
@@ -36,7 +36,7 @@ describe('map', function() {
     var troopDataBaseObject = [{
       id: 1,
       type: 'Soldiers',
-      locationsResources: {
+      locationsTroops: {
         amount: 100
       }
     }];
@@ -54,7 +54,7 @@ describe('map', function() {
       id: 1,
       type: 'Soldiers',
       cost: 500,
-      locationsResources: {
+      locationsTroops: {
         amount: 100,
         locationId: 1,
         troopId: 1

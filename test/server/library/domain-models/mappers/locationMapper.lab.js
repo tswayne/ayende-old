@@ -69,7 +69,7 @@ describe('map', function() {
         id: 1,
         type: 'Soldiers',
         cost: 500,
-        locationsResources: {
+        locationsTroops: {
           amount: 100,
           locationId: 1,
           troopId: 1
@@ -86,7 +86,7 @@ describe('map', function() {
     locationMapper.map(locationDataObject, callback);
   });
 
-  it('maps locations troops when troop data exists', function (done) {
+  it('maps locations resources when resource data exists', function (done) {
     var locationDataObject = {
       id: 1,
       xCoordinate: 5,

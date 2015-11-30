@@ -38,25 +38,5 @@ var getAllLocationData = function(userId, locationId, callback) {
     })
 };
 
-module.exports.purchaseTroopsForLocation = function(location, requestedAmount, troopType, callback) {
-    var troopCost = location.troops[troopType].cost;
-    var locationGold = location.resources[resources.goldIndex].locationsResources.amount;
-    var purchaseTotal = troopCost * requestedAmount;
-
-    if (locationGold < purchaseTotal ) {
-        return callback({type: 'notEnough'}, location);
-    }
-
-    location.troops[troopType].locationsResources.amount += requestedAmount;
-    location.resources[resources.goldIndex].locationsResources.amount -= purchaseTotal;
-    Promise.all([
-        location.troops[troopType].locationsResources.save(),
-        location.resources[resources.goldIndex].locationsResources.save()
-    ]).then(function(){
-        callback(null, location);
-    });
-
-};
-
 module.exports.getLocationsForUser = getLocationsForUser;
 module.exports.getAllLocationData = getAllLocationData;
