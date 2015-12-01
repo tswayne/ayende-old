@@ -6,7 +6,7 @@ var sinon = require('sinon');
 var describe = lab.describe;
 var it = lab.it;
 var controller = require('../../../server/controllers/account');
-var bcrypt = require('bcrypt');
+var bcrypt = require('bcryptjs');
 
 var stubbedRequest = {
   auth: {

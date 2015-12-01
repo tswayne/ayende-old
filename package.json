@@ -5,7 +5,7 @@
   "main": "ayende.js",
   "dependencies": {
     "async": "^1.4.2",
-    "bcrypt": "^0.8.5",
+    "bcryptjs": "^2.3.0",
     "bower": "^1.5.1",
     "catbox-memory": "^1.1.2",
     "content": "^1.0.2",

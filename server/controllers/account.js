@@ -1,6 +1,6 @@
 var accountForm = require('../config/forms/account-form');
 var service = require('../library/clients/account');
-var bcrypt = require('bcrypt');
+var bcrypt = require('bcryptjs');
 
 var login = {
     handler:  function(request, reply)
