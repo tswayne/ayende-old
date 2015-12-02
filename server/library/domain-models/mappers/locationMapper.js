@@ -37,3 +37,12 @@ module.exports.map = function(locationData, callback) {
     });
   });
 };
+
+module.exports.construct = function() {
+  return location.construct({
+    xCoordinate: 0,
+    yCoordinate: 0,
+    troops: troopMapper.construct(),
+    resources: resourceMapper.construct()
+  });
+};

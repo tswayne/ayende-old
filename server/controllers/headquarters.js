@@ -1,4 +1,4 @@
-var locationClient = require('../library/clients/headquarters');
+var locationClient = require('../library/clients/location');
 var troopForm = require('../config/forms/troop-form').purchaseTroops;
 var locationMapper = require('../library/domain-models/mappers/locationMapper');
 

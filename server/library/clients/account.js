@@ -1,23 +1,19 @@
 'use strict';
+
 var db = require('../../config/database/setup');
 var Promise = require('promise');
-var createCoordinate = function() {
-  var coord = Math.random() * 10;
-  return Math.floor(coord);
-};
 
-var init = function(userData, callback) {
-  userData.password = bcrypt.hashSync(userData.password, 6);
 
+module.exports.create = function(user, callback) {
   Promise.all([
-     db.User.create(userData),
-     db.Location.create({xCoordinate: createCoordinate(), yCoordinate: createCoordinate()}),
-     db.Troops.findOne({where: {type: 0}}),
-     db.Resources.findOne({where: {type: 0}})
+    db.User.create({username: user.username, password: user.password}),
+    db.Location.create({xCoordinate: user.locations[0].xCoordinate, yCoordinate: user.locations[0].yCoordinate}),
+    db.Troops.findOne({where: {type: 0}}),
+    db.Resources.findOne({where: {type: 0}})
   ]).then(function(response) {
     return Promise.all([
-      response[1].addResource(response[3], {amount: 1000}),
-      response[1].addTroop(response[2], {amount: 100})
+      response[1].addResource(response[3], {amount: user.locations[0].resources.gold.amount}),
+      response[1].addTroop(response[2], {amount: user.locations[0].troops.soldiers.amount})
     ]).then(function () {
       return response[0].addLocation(response[1]);
     })
@@ -26,8 +22,6 @@ var init = function(userData, callback) {
   });
 };
 
-
-module.exports.initializeAccount = init;
 module.exports.getUser = function(loginInfo, callback) {
   db.User.findOne({
     where: {username: loginInfo.username}
@@ -36,6 +30,7 @@ module.exports.getUser = function(loginInfo, callback) {
     if (user) {
       user.getLocations().then(function(locations) {
         user.locations = locations;
+        console.log(user);
         callback(user, user.password);
       })
     } else {

@@ -49,3 +49,13 @@ module.exports.map = function(resourceData, callback) {
     return callback(err, resources);
   });
 };
+
+module.exports.construct = function() {
+  return {
+    gold: resource.construct({
+      id: 0,
+      type: 'Gold',
+      amount: 0
+    })
+  };
+};
