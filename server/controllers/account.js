@@ -1,12 +1,15 @@
 var accountForm = require('../config/forms/account-form');
-var service = require('../resources/account');
+var client = require('../library/clients/account');
+var account = require('../library/domain-models/account');
+var bcrypt = require('bcryptjs');
 
 var login = {
     handler:  function(request, reply)
     {
         var successfulLogin = function (form) {
-            service.validate(request.payload, function(user) {
-                if (user) {
+            client.getUser(request.payload, function(user, password) {
+                if (user && password && bcrypt.compareSync(request.payload.password, user.password)) {
+
                     request.auth.session.set(request.payload);
                     request.session.set('user', {id: user.id});
                     if (user.locations.length === 0) {
@@ -53,7 +56,8 @@ var save ={
     {
         accountForm.handle(request.payload, {
             success: function (form) {
-                service.initializeAccount(request.payload, function(user){
+                var user = account.initialize(request.payload.username, request.payload.password);
+                client.create(user, function(user){
                   request.auth.session.set(request.payload);
                   request.session.set('user', {id: user.id});
                   reply.redirect('/headquarters');

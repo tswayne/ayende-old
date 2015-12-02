@@ -47,7 +47,7 @@ module.exports.Attacks = db.define('attacks', {
   started: Sequelize.DATE
 });
 
-module.exports.initializeAccount = function(provisionDatabase) {
+module.exports.create = function(provisionDatabase) {
 
   var User = exports.User;
 

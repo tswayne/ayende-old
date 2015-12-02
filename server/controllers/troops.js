@@ -1,13 +1,17 @@
 'use strict';
 var troopForm = require('../config/forms/troop-form').purchaseTroops;
-var service = require('../resources/headquarters');
+var locationClient = require('../library/clients/location');
+var locationMapper = require('../library/domain-models/mappers/locationMapper');
 
 var getLocationPreHandler = function(request, reply) {
   var user = request.session.get('user');
   if (!user) {
     reply();
   } else {
-    service.getAllLocationData(user.id, request.params.locationId, reply);
+
+    locationClient.getAllLocationData(user.id, request.params.locationId, function(location) {
+      locationMapper.map(location, reply);
+    });
   }
 };
 
@@ -26,16 +30,10 @@ module.exports.purchaseTroops = {
       troopForm.handle(request.payload, {
         success: function (form) {
           form.data.soldierAmount = Math.round(form.data.soldierAmount);
-          service.purchaseTroopsForLocation(location, form.data.soldierAmount, 0, function(err, updatedLocation){
+          location.purchaseTroops(form.data.soldierAmount, function(err, updatedLocation){
             var purchaseError;
             if (err) {
-              switch(err.type) {
-                case 'notEnough':
-                  purchaseError = 'Not enough gold to purchase troops!';
-                  break;
-                default:
-                  purchaseError = 'Purchase not completed, something went wrong!'
-              }
+              purchaseError = 'Not enough gold to purchase troops!';
             }
             reply.view(viewPath, {location: updatedLocation, troopForm: form.toHTML(), purchaseError: purchaseError})
           });

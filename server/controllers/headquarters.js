@@ -1,6 +1,6 @@
-var service = require('../resources/headquarters');
+var locationClient = require('../library/clients/location');
 var troopForm = require('../config/forms/troop-form').purchaseTroops;
-
+var locationMapper = require('../library/domain-models/mappers/locationMapper');
 
 var indexAction = {
   auth: 'session',
@@ -10,7 +10,7 @@ var indexAction = {
     if (!user) {
       reply.redirect('/');
     } else {
-      service.getLocationsForUser(user.id, function(locations) {
+      locationClient.getLocationsForUser(user.id, function(locations) {
         reply.view('headquarters/index', {locations: locations});
       });
     }
@@ -22,7 +22,10 @@ var getLocationPreHandler = function(request, reply) {
   if (!user) {
     reply();
   } else {
-    service.getAllLocationData(user.id, request.params.locationId, reply);
+
+    locationClient.getAllLocationData(user.id, request.params.locationId, function(location) {
+      locationMapper.map(location, reply);
+    });
   }
 };
 
